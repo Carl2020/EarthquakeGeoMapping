@@ -7,6 +7,7 @@ d3.json(link, function(data) {
   createFeatures(data.features);
 });
 
+// function to assign features to each circle
   function styleInformation(feature) {
     return {
       radius: 5 * (feature.properties.mag),
@@ -18,6 +19,8 @@ d3.json(link, function(data) {
       fillOpacity: 0.35
     };
   }
+
+  // function to chooseColor based on magnitude of the earthquake
   function chooseColor(mag) {
     if (mag > 5.0) {
       return "purple";
@@ -62,6 +65,16 @@ function createFeatures(earthquakeData) {
   createMap(earthquakes);
 }
 
+// Create a function to get colors (for the legend) based on the magnitude of earth quake
+function getColor(d) {
+  return d > 5 ? "purple" :
+         d > 4 ? "blue" :
+         d > 3 ? "red" :
+         d > 2 ? "orange" :
+         d > 1 ? "green" :
+                 "yellow";
+}
+
 function createMap(earthquakes) {
 
   // Define streetmap layer
@@ -95,22 +108,14 @@ function createMap(earthquakes) {
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
   }).addTo(map);
-}
-// Create a function to get colors (for the legend) based on the magnitude of earth quake
-function getColor(d) {
-  return d > 5 ? "purple" :
-         d > 4 ? "blue" :
-         d > 3 ? "red" :
-         d > 2 ? "orange" :
-         d > 1 ? "green" :
-                 "yellow";
-}
 
+  
 var info = L.control({
   position: "bottomright"
 });
 
 info.onAdd = function () {
+
 
     var div = L.DomUtil.create("div", "legend");
     grades = [0, 1, 2, 3, 4, 5],
@@ -126,4 +131,4 @@ info.onAdd = function () {
 
 info.addTo(map);
 
-
+}
